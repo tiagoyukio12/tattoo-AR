@@ -3,12 +3,14 @@ import cv2 as cv2
 import FingersNumberDetector
 import TemplateDetector
 
+from os import path
 
-def main():
+
+def main(tattoo_filename):
     window_cam = "Tattoo AR"
     cv2.namedWindow(window_cam)
     cap = cv2.VideoCapture(0)
-    template_detector = TemplateDetector.TemplateDetector("template.png", "tattoo.png")
+    template_detector = TemplateDetector.TemplateDetector("template.png", tattoo_filename)
     finger_detector = FingersNumberDetector.FingersNumberDetector(cap)
 
     if cap.isOpened():
@@ -24,7 +26,7 @@ def main():
         frame = template_detector.draw_tattoo(frame)
 
         # Detect hand
-        frame = cv2.LUT(frame, finger_detector.lookUpTable)
+        #frame = cv2.LUT(frame, finger_detector.lookUpTable)
         cv2.rectangle(frame, (finger_detector.x0, finger_detector.y0),
                       (finger_detector.x0 + finger_detector.width - 1, finger_detector.y0 + finger_detector.height - 1),
                       (255, 0, 0), 2)
@@ -77,4 +79,5 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    tattoo_file = path.join(path.dirname(__file__), "img", "tattoo.png")
+    main(tattoo_file)
