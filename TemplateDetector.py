@@ -76,8 +76,13 @@ class TemplateDetector:
 
             # Draw tattoo around detected result
             resized_tattoo = cv2.resize(self.tattoo, None, fx=r, fy=r)
-            y1, y2 = startY + self.y_offset, startY + resized_tattoo.shape[0] + self.y_offset
-            x1, x2 = startX + self.x_offset, startX + resized_tattoo.shape[1] + self.x_offset
+            y1 = startY + self.y_offset
+            y1 = 0 if y1 < 0 else y1
+            y2 = y1 + resized_tattoo.shape[0]
+
+            x1 = startX + self.x_offset
+            x1 = 0 if x1 < 0 else x1
+            x2 = x1 + resized_tattoo.shape[1]
 
             if y2 < frame.shape[0] and x2 < frame.shape[1]:
                 # Tattoo fits frame
