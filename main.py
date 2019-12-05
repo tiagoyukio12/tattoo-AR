@@ -26,7 +26,7 @@ def main(tattoo_filename):
         frame = template_detector.draw_tattoo(frame)
 
         # Detect hand
-        #frame = cv2.LUT(frame, finger_detector.lookUpTable)
+        #frame = cv2.LUT(frame, finger_detector.lookUpTable)  # Increase the contrast
         cv2.rectangle(frame, (finger_detector.x0, finger_detector.y0),
                       (finger_detector.x0 + finger_detector.width - 1, finger_detector.y0 + finger_detector.height - 1),
                       (255, 0, 0), 2)
@@ -50,13 +50,13 @@ def main(tattoo_filename):
             finger_detector.drawRect(frame)
 
         # Move tattoo offset
-        if k == 2424832:
+        if k == 2424832 or finger_detector.cnt == 4:
             template_detector.x_offset -= 10
-        elif k == 2490368:
-            template_detector.y_offset -= 10
-        elif k == 2555904:
+        elif k == 2555904 or finger_detector.cnt == 3:
             template_detector.x_offset += 10
-        elif k == 2621440:
+        elif k == 2490368 or finger_detector.cnt == 2:
+            template_detector.y_offset -= 10
+        elif k == 2621440 or finger_detector.cnt == 1:
             template_detector.y_offset += 10
 
         # Move hand ROI
