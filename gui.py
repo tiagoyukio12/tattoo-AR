@@ -12,15 +12,19 @@ def select_tattoo():
 	tattoo_file = filedialog.askopenfilename(initialdir=img_dir, filetypes = (("Image files","*.png"),("All files","*.*")))
 
 	lbl.configure(text="Tattoo selecionada:")
-	img = tkinter.PhotoImage(file=tattoo_file)
-	scale = int(img.height() / 300)
-	img = img.subsample(scale)
+	img = load_image(tattoo_file)
 	lbl1.configure(image=img)
 	lbl1.image = img  # Prevent garbage collection from deleting image
 
 def start_test():
 	main.main(tattoo_file)
 
+def load_image(tattoo_file):
+	img = tkinter.PhotoImage(file=tattoo_file)
+	if img.height() > 300:
+		scale = int(img.height() / 300)
+		img = img.subsample(scale)
+	return img
 
 if __name__ == "__main__":
 	window = tkinter.Tk()
@@ -39,9 +43,7 @@ if __name__ == "__main__":
 	lbl = tkinter.Label(window, text="Tattoo selecionada:")
 	lbl.grid(column=0, row=1)
       
-	img = tkinter.PhotoImage(file=tattoo_file)
-	scale = int(img.height() / 300)
-	img = img.subsample(scale)
+	img = load_image(tattoo_file)
 	lbl1 = tkinter.Label(window, image=img)
 	lbl1.grid(column=0, row=2)
 
